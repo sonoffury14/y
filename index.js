@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const tokenfile = require("./tokenfile.json");
 const botconfig = require("./botconfig.json");
 const bot = new Discord.Client({disableEveryone: true});
 var weather = require(`weather-js`);
@@ -78,7 +79,23 @@ bot.on("message", async (message) => {
     }
 
     if(cmd === `${prefix}botinfo`){
-        let parancsEmbed = new Discord.MessageEmbed()
+        let infoEmbed = new Discord.MessageEmbed()
+        .setColor("RED")
+        .setTitle("Bot információk:")
+        .addField("A botot készítette:", "Son of Fury")
+        .addField("A botot tesztelte:", "Aklime, Son of Fury, KBence")
+        .addField("A bot help parancsa:", "?help")
+        .setThumbnail(message.author.displayAvatarURL())
+        .setDescription(`Prefix: \`${prefix}\``)
+        .setFooter("[HUN] Gamer Community | Készítő: Son of Fury")
+        .setTimestamp()
+
+        message.channel.send(infoEmbed)
+
+    }
+
+    if(cmd === `${prefix}help`){
+        let helpEmbed = new Discord.MessageEmbed()
         .setColor("RED")
         .setTitle("Bot Parancsai:")
         .addField("Moderáció Parancsok:", "?ban, ?kick, ?report, ?mute, ?warn, ?clear" )
@@ -86,11 +103,11 @@ bot.on("message", async (message) => {
         .addField("Fun Parancsok:","?meme, ?cica, ?kutya, ?ship, ?számológép, ?szavazás, ?nyereményjáték, ?8ball")
         .addField("Egyéb Parancsok:", "?weather, ?szavazás, ?teszt, ?este, ?reggel, ?nappal, ?alkohol, ?drog")
         .setThumbnail(message.author.displayAvatarURL())
-        .setDescription(`\`${prefix}\``)
+        .setDescription(`Prefix: \`${prefix}\``)
         .setFooter("[HUN] Gamer Community | Készítő: Son of Fury")
         .setTimestamp()
 
-        message.channel.send(parancsEmbed)
+        message.channel.send(helpEmbed)
 
     }
 
@@ -219,8 +236,8 @@ if(message.guild){
         .setColor("RANDOM")
         .setThumbnail(message.author.displayAvatarURL())
         .setFooter("[HUN] Gamer Community | szerencse | Készítő: Son of Fury")
-        message.channel.send(DropMoneyEmbed);
-        message.channel.send(DropMoneyEmbed).then(m => m.delete({ timeout: 5000}))
+        message.channel.get(DropMonexEmbed);
+        message.channel.get(DropMonexEmbed).then(m => m.delete({ timeout: 5000}))
 
         money[message.author.id] = {
             money: selfMoney + 600,
@@ -469,4 +486,4 @@ bot.on("ready", async () => {
 
 })
 
-bot.login(process.env.BOT_TOKEN);
+bot.login(tokenfile.token);
